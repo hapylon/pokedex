@@ -12,10 +12,15 @@ export const inspectCommand: CLICommand = {
         if (!state.pokedex[pokemonName]) {
             console.log(`you have not caught that pokemon`);
         } else {
-            console.log(```
-Name: ${state.pokedex[pokemonName].name}
-Height: ${state.pokedex[pokemonName].height}
-Weight: ${state.pokedex[pokemonName].weight}
+            console.log(`Name: ${state.pokedex[pokemonName].name}`)
+            console.log(`Height: ${state.pokedex[pokemonName].height}`)
+            console.log(`Weight: ${state.pokedex[pokemonName].weight}`)
+        }
+    }
+}
+//Name: {state.pokedex[pokemonName].name}
+//Height: {state.pokedex[pokemonName].height}
+//Weight: {state.pokedex[pokemonName].weight}
 // Stats:
 //   -hp: state.pokedex[pokemonName].stats.hp
 //   -attack: state.pokedex[pokemonName].stats[attack]
@@ -25,8 +30,3 @@ Weight: ${state.pokedex[pokemonName].weight}
 //   -speed: 
 // Types:
 //   - 
-```
-)
-        }
-    }
-}

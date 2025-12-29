@@ -3,6 +3,8 @@ import { helpCommand } from "./commandHelp.js";
 import { mapbCommand, mapCommand } from "./commandMap.js";
 import { exploreCommand } from "./commandExplore.js";
 import { catchCommand } from "./commandCatch.js";
+import { inspectCommand } from "./commandInspect.js";
+import { pokedexCommand } from "./commandPokedex.js";
 export function getCommands() {
     return {
         exit: exitCommand,
@@ -11,6 +13,8 @@ export function getCommands() {
         mapb: mapbCommand,
         explore: exploreCommand,
         catch: catchCommand,
+        inspect: inspectCommand,
+        pokedex: pokedexCommand,
         // MORE COMMANDS HERE
     };
 }
