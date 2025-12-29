@@ -1,16 +1,7 @@
-// import { createInterface } from 'node:readline';
-// import { getCommands } from "./registry.js";
 import { stdout } from 'node:process';
-// const commands: Record<string, CLICommand> = getCommands();
-// export const rl = createInterface({
-//   input: stdin,
-//   output: stdout,
-//   prompt: "Pokedex >",
-//   terminal: false,
-// });
-export function startREPL(state) {
+export async function startREPL(state) {
     state.rl.prompt();
-    state.rl.on('line', (line) => {
+    state.rl.on('line', async (line) => {
         const data = cleanInput(line);
         if (data.length < 1) {
             state.rl.prompt();
@@ -19,7 +10,12 @@ export function startREPL(state) {
         const [cmd] = data;
         const command = state.commands[cmd];
         if (command) {
-            command.callback(state);
+            try {
+                await command.callback(state);
+            }
+            catch (error) {
+                console.error('Error executing command:', error);
+            }
         }
         else {
             console.log(`unknown command: ${cmd}`);

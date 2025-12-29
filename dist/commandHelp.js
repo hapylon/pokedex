@@ -1,16 +1,7 @@
-// export function commandHelp(commands: Record<string, CLICommand>) {
-//     console.log(`
-// Welcome to the Pokedex!
-// Usage:
-// help: Displays a help message
-// exit: Exit the Pokedex
-// `
-// )
-// }
 export const helpCommand = {
     name: "help",
     description: "Displays a help message",
-    callback: (state) => {
+    callback: async (state) => {
         console.log(`
 Welcome to the Pokedex!
 Usage:
@@ -19,7 +10,5 @@ Usage:
             const command = state.commands[name];
             console.log(`${command.name}: ${command.description}`);
         }
-        // help: Displays a help message
-        // exit: Exit the Pokedex
     }
 };

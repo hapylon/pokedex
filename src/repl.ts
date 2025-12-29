@@ -1,10 +1,10 @@
 import { stdin, stdout } from 'node:process';
 import { State } from './state.js';
 
-export function startREPL(state: State) {
+export async function startREPL(state: State) {
   state.rl.prompt();
 
-  state.rl.on('line', (line) => {
+  state.rl.on('line', async (line) => {
     const data = cleanInput(line);
     if (data.length < 1) {
         state.rl.prompt();
@@ -14,7 +14,11 @@ export function startREPL(state: State) {
     const command = state.commands[cmd];
 
     if (command) {
-      command.callback(state);
+      try {
+        await command.callback(state);
+      } catch (error) {
+        console.error('Error executing command:', error);
+      }
     } else {
       console.log(`unknown command: ${cmd}`);
     }
