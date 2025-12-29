@@ -1,5 +1,6 @@
 import { stdin, stdout } from 'node:process';
 import { getCommands } from "./registry.js";
+import { Pokemon, Pokedex } from './pokeapi.js';
 
 import { createInterface, type Interface } from "readline";
 import { PokeAPI } from './pokeapi.js';
@@ -30,8 +31,9 @@ export function initState(): State {
     });
 
     const pokeApi = new PokeAPI(300_000);
+    const pokedex: Record<string, Pokemon> = {};
     const nextLocationsURL = null;
     const prevLocationsURL = null;
 
-    return {rl, commands, pokeApi, nextLocationsURL, prevLocationsURL};
+    return {rl, commands, pokeApi, pokedex, nextLocationsURL, prevLocationsURL};
 }

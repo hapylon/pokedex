@@ -11,7 +11,8 @@ export function initState() {
         terminal: false,
     });
     const pokeApi = new PokeAPI(300_000);
+    const pokedex = {};
     const nextLocationsURL = null;
     const prevLocationsURL = null;
-    return { rl, commands, pokeApi, nextLocationsURL, prevLocationsURL };
+    return { rl, commands, pokeApi, pokedex, nextLocationsURL, prevLocationsURL };
 }

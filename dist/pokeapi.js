@@ -48,6 +48,27 @@ export class PokeAPI {
             }
         }
     }
+    async fetchPokemon(pokemonName) {
+        const useURL = `${PokeAPI.baseURL}/pokemon/${pokemonName}/`;
+        const cached = this.#sessionCache.get(useURL);
+        if (cached) {
+            return cached;
+        }
+        else {
+            try {
+                const resp = await fetch(useURL);
+                if (!resp.ok) {
+                    throw new Error(`${resp.status} ${resp.statusText}`);
+                }
+                const pokemon = await resp.json();
+                this.#sessionCache.add(useURL, pokemon);
+                return pokemon;
+            }
+            catch (e) {
+                throw new Error(`Error fetching pokemon ${pokemonName}: ${e.message}`);
+            }
+        }
+    }
 }
 export function joinUrl(baseUrl, pageUrl) {
     try {

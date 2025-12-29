@@ -106,6 +106,10 @@ export type Pokemon = {
 
 }
 
+export type Pokedex = {
+    "caught": Record<string, Pokemon>[]
+}
+
 export function joinUrl(baseUrl: string, pageUrl: string): string {
   try {
     // The constructor handles the logic: new URL(relativeUrl, baseUrl)
