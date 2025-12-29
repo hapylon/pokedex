@@ -103,6 +103,7 @@ export type Pokemon = {
     "is_default": boolean,
     "order": number, 
     "weight": number,
+    "stats": Record<string, string | number>[],
 
 }
 
