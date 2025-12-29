@@ -1,28 +1,51 @@
+import { Cache } from "./pokecache.js";
 export class PokeAPI {
     static baseURL = "https://pokeapi.co/api/v2";
-    constructor() {
+    #sessionCache;
+    constructor(cacheInterval) {
+        this.#sessionCache = new Cache(cacheInterval);
     }
     ;
     async fetchLocations(pageURL) {
         const useURL = pageURL ?? `${PokeAPI.baseURL}/location-area`;
-        try {
-            const data = await fetch(useURL);
-            return data.json();
+        const cached = this.#sessionCache.get(useURL)?.val;
+        if (cached) {
+            return cached;
         }
-        catch (error) {
-            console.error('Error fetching data: ', error);
-            throw error;
+        else {
+            try {
+                const resp = await fetch(useURL);
+                if (!resp.ok) {
+                    throw new Error(`${resp.status} ${resp.statusText}`);
+                }
+                const locations = await resp.json();
+                this.#sessionCache.add(useURL, locations);
+                return locations;
+            }
+            catch (e) {
+                throw new Error(`Error fetching locations: ${e.message}`);
+            }
         }
     }
     async fetchLocation(locationName) {
         const useURL = `${PokeAPI.baseURL}/location-area/${locationName}`;
-        try {
-            const data = await fetch(useURL);
-            return data.json();
+        const cached = this.#sessionCache.get(useURL)?.val;
+        if (cached) {
+            return cached;
         }
-        catch (error) {
-            console.error('Error fetching data: ', error);
-            throw error;
+        else {
+            try {
+                const resp = await fetch(useURL);
+                if (!resp.ok) {
+                    throw new Error(`${resp.status} ${resp.statusText}`);
+                }
+                const location = await resp.json();
+                this.#sessionCache.add(useURL, location);
+                return location;
+            }
+            catch (e) {
+                throw new Error(`Error fetching location ${locationName}: ${e.message}`);
+            }
         }
     }
 }

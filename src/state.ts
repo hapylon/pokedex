@@ -28,9 +28,9 @@ export function initState(): State {
         terminal: false,
     });
 
-    const pokeApi = new PokeAPI;
+    const pokeApi = new PokeAPI(300_000);
     const nextLocationsURL = null;
     const prevLocationsURL = null;
-    
+
     return {rl, commands, pokeApi, nextLocationsURL, prevLocationsURL};
 }
