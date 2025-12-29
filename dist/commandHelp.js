@@ -1,7 +1,7 @@
 export const helpCommand = {
     name: "help",
     description: "Displays a help message",
-    callback: async (state) => {
+    callback: async (state, ...args) => {
         console.log(`
 Welcome to the Pokedex!
 Usage:

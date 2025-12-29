@@ -3,7 +3,7 @@ import type { CLICommand, State } from "./state.js";
 export const helpCommand: CLICommand = {
     name: "help",
     description: "Displays a help message",
-    callback: async (state: State) => {
+    callback: async (state: State, ...args: string[]) => {
         console.log(`
 Welcome to the Pokedex!
 Usage:

@@ -22,8 +22,8 @@ export class Cache {
         this.#cache.set(key, newEntry)
     };
 
-    get<T>(key: string): CacheEntry<T> | undefined {
-        return this.#cache.get(key) ?? undefined;
+    get<T>(key: string): T | undefined {
+        return this.#cache.get(key)?.val ?? undefined;
     };
 
     #reap = () => {
@@ -35,7 +35,7 @@ export class Cache {
     }
 
     #startReapLoop() {
-        this.#reapIntervalID = setInterval(this.#reap, this.#interval);
+        this.#reapIntervalID = setInterval(this.#reap, 50);// this.#interval / 2);
     }
     stopReapLoop() {
         clearInterval(this.#reapIntervalID);

@@ -10,7 +10,7 @@ export class PokeAPI {
 
   async fetchLocations(pageURL?: string): Promise<ShallowLocations> { 
     const useURL = pageURL ?? `${PokeAPI.baseURL}/location-area`;
-    const cached = this.#sessionCache.get<ShallowLocations>(useURL)?.val;
+    const cached = this.#sessionCache.get<ShallowLocations>(useURL);
     if (cached) {
         return cached;
     } else {
@@ -32,7 +32,7 @@ export class PokeAPI {
 
   async fetchLocation(locationName: string): Promise<Location> {
     const useURL = `${PokeAPI.baseURL}/location-area/${locationName}`;
-    const cached = this.#sessionCache.get<Location>(useURL)?.val;
+    const cached = this.#sessionCache.get<Location>(useURL);
     if (cached) {
         return cached;
     } else {
@@ -49,7 +49,29 @@ export class PokeAPI {
         }
     }
   }
+
+  async fetchPokemon(pokemonName: string): Promise<Pokemon> {
+    const useURL = `${PokeAPI.baseURL}/pokemon/${pokemonName}/`;
+    const cached = this.#sessionCache.get<Pokemon>(useURL);
+    if (cached) {
+        return cached;
+    } else {
+        try {
+            const resp = await fetch(useURL);
+            if (!resp.ok) {
+                throw new Error(`${resp.status} ${resp.statusText}`)
+            }
+            const pokemon = await resp.json();
+            this.#sessionCache.add(useURL, pokemon);
+            return pokemon;
+        } catch (e) {
+            throw new Error(`Error fetching pokemon ${pokemonName}: ${(e as Error).message}`)
+        }
+    }
+  }
 }
+
+
 
 export type ShallowLocations = {
     "count": number,
@@ -59,14 +81,30 @@ export type ShallowLocations = {
 };
 
 export type Location = {
-  id: number,
-  name: string,
-  region: unknown,
-  names: string[],
-  game_indices: unknown,
-  areas: ShallowLocations,
-
+  "id": number,
+  "name": string,
+  "game_index": number,
+  "encounter_method_rates": unknown,
+  "location": unknown,
+  "names": unknown,
+  "pokemon_encounters": {
+    "pokemon": {
+        "name": string;
+        "url": string;
+    };
+  }[];
 };
+
+export type Pokemon = {
+    "id": number,
+    "name": string,
+    "base_experience": number,
+    "height": number,
+    "is_default": boolean,
+    "order": number, 
+    "weight": number,
+
+}
 
 export function joinUrl(baseUrl: string, pageUrl: string): string {
   try {

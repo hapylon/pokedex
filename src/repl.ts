@@ -10,12 +10,12 @@ export async function startREPL(state: State) {
         state.rl.prompt();
         return;
     }
-    const [cmd] = data;
+    const [cmd, ...args] = data;
     const command = state.commands[cmd];
 
     if (command) {
       try {
-        await command.callback(state);
+        await command.callback(state, ...args);
       } catch (error) {
         console.error('Error executing command:', error);
       }

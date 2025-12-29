@@ -8,7 +8,7 @@ export class PokeAPI {
     ;
     async fetchLocations(pageURL) {
         const useURL = pageURL ?? `${PokeAPI.baseURL}/location-area`;
-        const cached = this.#sessionCache.get(useURL)?.val;
+        const cached = this.#sessionCache.get(useURL);
         if (cached) {
             return cached;
         }
@@ -29,7 +29,7 @@ export class PokeAPI {
     }
     async fetchLocation(locationName) {
         const useURL = `${PokeAPI.baseURL}/location-area/${locationName}`;
-        const cached = this.#sessionCache.get(useURL)?.val;
+        const cached = this.#sessionCache.get(useURL);
         if (cached) {
             return cached;
         }
